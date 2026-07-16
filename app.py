@@ -3,11 +3,11 @@ from supabase import create_client, Client
 import datetime
 
 # Konfigurasi Halaman agar rapi di HP & Laptop
-st.set_page_config(page_title="Brain Dump 2026", page_icon="🍼", layout="wide")
+st.set_page_config(page_title="Brain Dump 2026", page_icon="🧠", layout="wide")
 
 # 1. Koneksi ke Supabase (Ganti dengan URL dan KEY milik Anda)
-SUPABASE_URL = "sb_publishable_yb3ESAe1YYdZs6Y_xPfxsw_J88Xo5xk"
-SUPABASE_KEY = "sb_secret_fY-YS7F8x_ZQhrY_D5yECA_U0pfPZXH"
+SUPABASE_URL = "PASANG_URL_SUPABASE_ANDA_DI_SINI"
+SUPABASE_KEY = "PASANG_ANON_KEY_SUPABASE_ANDA_DI_SINI"
 
 @st.cache_resource
 def init_connection():
@@ -18,7 +18,7 @@ supabase: Client = init_connection()
 st.title("🧠 Brain Dump & Manajemen Harian 2026")
 st.caption("Tumpahkan isi kepalamu di sini. Sinkronisasi otomatis antara HP dan Laptop.")
 
-# --- FORM INPUT (Bisa diciutkan/Collapse agar rapi di HP) ---
+# --- FORM INPUT ---
 with st.expander("➕ Tambah Brain Dump Baru", expanded=True):
     col1, col2, col3 = st.columns([2, 1, 1])
     
@@ -39,7 +39,7 @@ with st.expander("➕ Tambah Brain Dump Baru", expanded=True):
             data = {
                 "kategori": kategori,
                 "aktivitas": aktivitas,
-                "urgensi": urgency,
+                "urgensi": urgensi,
                 "status": status,
                 "tanggal_selesai": str(tanggal_selesai),
                 "keterangan": keterangan
@@ -47,6 +47,7 @@ with st.expander("➕ Tambah Brain Dump Baru", expanded=True):
             # Memasukkan data ke Supabase
             supabase.table("braindump").insert(data).execute()
             st.success("Berhasil disimpan secara realtime!")
+            st.status("Memperbarui data...", expanded=False)
             st.rerun()
         else:
             st.error("Aktivitas tidak boleh kosong!")
@@ -77,12 +78,13 @@ else:
                 if row['keterangan']:
                     st.caption(f"Catatan: {row['keterangan']}")
                 
-                # Tombol Aksi Cepat untuk mengubah status atau menghapus
+                # Tombol Aksi Cepat untuk mengubah status
                 col_a, col_b = st.columns([1, 6])
                 with col_a:
-                    if st.button("Selesai ✅", key=f"done_{row['id']}"):
-                        supabase.table("braindump").update({"status": "Selesai"}).eq("id", row['id']).execute()
-                        st.rerun()
+                    if row['status'] != "Selesai":
+                        if st.button("Selesai ✅", key=f"done_{row['id']}"):
+                            supabase.table("braindump").update({"status": "Selesai"}).eq("id", row['id']).execute()
+                            st.rerun()
                 st.markdown("---")
 
     with kategori_pilihan[0]:
