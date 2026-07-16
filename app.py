@@ -51,8 +51,6 @@ with st.expander("➕ Tambah Brain Dump Baru", expanded=True):
         else:
             st.error("Aktivitas tidak boleh kosong!")
 
----
-
 # --- MENAMPILKAN DATA ---
 st.subheader("📋 Daftar Fokus Anda")
 
