@@ -6,8 +6,8 @@ import datetime
 st.set_page_config(page_title="Brain Dump 2026", page_icon="🧠", layout="wide")
 
 # 1. Koneksi ke Supabase (Ganti dengan URL dan KEY milik Anda)
-SUPABASE_URL = "PASANG_URL_SUPABASE_ANDA_DI_SINI"
-SUPABASE_KEY = "PASANG_ANON_KEY_SUPABASE_ANDA_DI_SINI"
+SUPABASE_URL = "sb_publishable_yb3ESAe1YYdZs6Y_xPfxsw_J88Xo5xk"
+SUPABASE_KEY = "sb_secret_fY-YS7F8x_ZQhrY_D5yECA_U0pfPZXH"
 
 @st.cache_resource
 def init_connection():
